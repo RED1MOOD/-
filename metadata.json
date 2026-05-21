@@ -1,0 +1,6 @@
+{
+  "name": "حساباتي",
+  "description": "تطبيق فاخر واحترافي لتسجيل وإدارة المصاريف اليومية والرواتب مع ميزة التأكيد التلقائي للمعاملات الدورية وكروت دفع مميزة.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
