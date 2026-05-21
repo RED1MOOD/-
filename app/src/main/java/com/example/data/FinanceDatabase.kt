@@ -56,6 +56,12 @@ data class Reminder(
     val isEnabled: Boolean = true
 )
 
+@Entity(tableName = "settings")
+data class SettingEntity(
+    @PrimaryKey val key: String,
+    val value: String
+)
+
 @Dao
 interface TransactionDao {
     @Query("SELECT * FROM transactions ORDER BY timestamp DESC")
@@ -116,9 +122,27 @@ interface ReminderDao {
     suspend fun deleteReminder(reminder: Reminder)
 }
 
+@Dao
+interface SettingDao {
+    @Query("SELECT * FROM settings WHERE `key` = :key")
+    suspend fun getSetting(key: String): SettingEntity?
+
+    @Query("SELECT * FROM settings")
+    fun getAllSettings(): Flow<List<SettingEntity>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertSetting(setting: SettingEntity)
+}
+
 @Database(
-    entities = [Transaction::class, RecurringTransaction::class, CategoryEntity::class, Reminder::class],
-    version = 1,
+    entities = [
+        Transaction::class, 
+        RecurringTransaction::class, 
+        CategoryEntity::class, 
+        Reminder::class,
+        SettingEntity::class
+    ],
+    version = 2,
     exportSchema = false
 )
 abstract class FinanceDatabase : RoomDatabase() {
@@ -126,6 +150,7 @@ abstract class FinanceDatabase : RoomDatabase() {
     abstract fun recurringTransactionDao(): RecurringTransactionDao
     abstract fun categoryDao(): CategoryDao
     abstract fun reminderDao(): ReminderDao
+    abstract fun settingDao(): SettingDao
 
     companion object {
         @Volatile
@@ -137,7 +162,9 @@ abstract class FinanceDatabase : RoomDatabase() {
                     context.applicationContext,
                     FinanceDatabase::class.java,
                     "finance_database"
-                ).build()
+                )
+                .fallbackToDestructiveMigration() // Wipe DB on update/reset gracefully
+                .build()
                 INSTANCE = instance
                 instance
             }
@@ -150,6 +177,7 @@ class FinanceRepository(private val db: FinanceDatabase) {
     val allRecurring: Flow<List<RecurringTransaction>> = db.recurringTransactionDao().getAllRecurring()
     val allCategories: Flow<List<CategoryEntity>> = db.categoryDao().getAllCategories()
     val allReminders: Flow<List<Reminder>> = db.reminderDao().getAllReminders()
+    val allSettings: Flow<List<SettingEntity>> = db.settingDao().getAllSettings()
 
     suspend fun insertTransaction(transaction: Transaction) {
         db.transactionDao().insertTransaction(transaction)
@@ -199,20 +227,28 @@ class FinanceRepository(private val db: FinanceDatabase) {
         db.reminderDao().deleteReminder(reminder)
     }
 
+    suspend fun getSetting(key: String): String? {
+        return db.settingDao().getSetting(key)?.value
+    }
+
+    suspend fun saveSetting(key: String, value: String) {
+        db.settingDao().insertSetting(SettingEntity(key, value))
+    }
+
     suspend fun checkAndPopulateDefaultCategories() {
         val currentCats = allCategories.first()
         if (currentCats.isEmpty()) {
             val defaults = listOf(
-                CategoryEntity(name = "طعام", isIncome = false, iconName = "Restaurant", colorHex = "#F59E0B", isDefault = true),
-                CategoryEntity(name = "مواصلات", isIncome = false, iconName = "DirectionsCar", colorHex = "#14B8A6", isDefault = true),
-                CategoryEntity(name = "فواتير", isIncome = false, iconName = "Receipt", colorHex = "#3B82F6", isDefault = true),
-                CategoryEntity(name = "ترفيه", isIncome = false, iconName = "SportsEsports", colorHex = "#EC4899", isDefault = true),
-                CategoryEntity(name = "ملابس", isIncome = false, iconName = "ShoppingBag", colorHex = "#8B5CF6", isDefault = true),
-                CategoryEntity(name = "أدوية", isIncome = false, iconName = "MedicalServices", colorHex = "#EF4444", isDefault = true),
-                CategoryEntity(name = "راتب", isIncome = true, iconName = "Work", colorHex = "#10B981", isDefault = true),
-                CategoryEntity(name = "إستثمار", isIncome = true, iconName = "TrendingUp", colorHex = "#059669", isDefault = true),
-                CategoryEntity(name = "قط/منحة", isIncome = true, iconName = "CardGiftcard", colorHex = "#EAB308", isDefault = true),
-                CategoryEntity(name = "أخرى", isIncome = false, iconName = "Category", colorHex = "#6B7280", isDefault = true)
+                CategoryEntity(name = "Food", isIncome = false, iconName = "Restaurant", colorHex = "#F59E0B", isDefault = true),
+                CategoryEntity(name = "Transport", isIncome = false, iconName = "DirectionsCar", colorHex = "#14B8A6", isDefault = true),
+                CategoryEntity(name = "Bills", isIncome = false, iconName = "Receipt", colorHex = "#3B82F6", isDefault = true),
+                CategoryEntity(name = "Entertainment", isIncome = false, iconName = "SportsEsports", colorHex = "#EC4899", isDefault = true),
+                CategoryEntity(name = "Clothing", isIncome = false, iconName = "ShoppingBag", colorHex = "#8B5CF6", isDefault = true),
+                CategoryEntity(name = "Health", isIncome = false, iconName = "MedicalServices", colorHex = "#EF4444", isDefault = true),
+                CategoryEntity(name = "Salary", isIncome = true, iconName = "Work", colorHex = "#10B981", isDefault = true),
+                CategoryEntity(name = "Investment", isIncome = true, iconName = "TrendingUp", colorHex = "#059669", isDefault = true),
+                CategoryEntity(name = "Gift", isIncome = true, iconName = "CardGiftcard", colorHex = "#EAB308", isDefault = true),
+                CategoryEntity(name = "Others", isIncome = false, iconName = "Category", colorHex = "#6B7280", isDefault = true)
             )
             for (def in defaults) {
                 db.categoryDao().insertCategory(def)

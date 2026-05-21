@@ -9,8 +9,11 @@ import com.example.data.FinanceRepository
 import com.example.data.RecurringTransaction
 import com.example.data.Reminder
 import com.example.data.Transaction
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -22,6 +25,12 @@ class FinanceViewModel(application: Application) : AndroidViewModel(application)
     val recurring: StateFlow<List<RecurringTransaction>>
     val categories: StateFlow<List<CategoryEntity>>
     val reminders: StateFlow<List<Reminder>>
+
+    private val _selectedLanguage = MutableStateFlow("en")
+    val selectedLanguage: StateFlow<String> = _selectedLanguage.asStateFlow()
+
+    private val _selectedCurrency = MutableStateFlow("USD")
+    val selectedCurrency: StateFlow<String> = _selectedCurrency.asStateFlow()
 
     init {
         val database = FinanceDatabase.getDatabase(application)
@@ -54,6 +63,27 @@ class FinanceViewModel(application: Application) : AndroidViewModel(application)
         viewModelScope.launch {
             repository.checkAndPopulateDefaultCategories()
             processAutomaticRecurringPayments()
+
+            // Load saved settings
+            val savedLang = repository.getSetting("language") ?: "en"
+            _selectedLanguage.value = savedLang
+
+            val savedCurrency = repository.getSetting("currency") ?: "USD"
+            _selectedCurrency.value = savedCurrency
+        }
+    }
+
+    fun setLanguage(lang: String) {
+        viewModelScope.launch {
+            _selectedLanguage.value = lang
+            repository.saveSetting("language", lang)
+        }
+    }
+
+    fun setCurrency(currency: String) {
+        viewModelScope.launch {
+            _selectedCurrency.value = currency
+            repository.saveSetting("currency", currency)
         }
     }
 
@@ -187,10 +217,10 @@ class FinanceViewModel(application: Application) : AndroidViewModel(application)
                         val finalAmount = if (rec.type == "INCOME") rec.amount else -rec.amount
                         repository.insertTransaction(
                             Transaction(
-                                title = rec.title + " (دوري تلقائي)",
+                                title = rec.title + " (Scheduled/دوري تلقائي)",
                                 amount = finalAmount,
                                 category = rec.category,
-                                notes = "عملية مجدولة تم تسجيلها تلقائياً ليوم ${rec.dayOfMonth} في الشهر."
+                                notes = "Auto-registered transaction for day ${rec.dayOfMonth} of the month."
                             )
                         )
                     }

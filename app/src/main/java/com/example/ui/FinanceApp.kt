@@ -53,7 +53,150 @@ val DebitRed = Color(0xFFEF4444)
 val TextWhite = Color(0xFFFFFFFF)
 val TextMuted = Color(0xFF8E8E93)
 
-// Dynamic custom utility functions for Category properties mapping
+// Multi-Lingual Translation Helper Object
+object Trans {
+    fun get(key: String, lang: String): String {
+        val en = mapOf(
+            "app_title" to "Hisabati Finance",
+            "greeting" to "Welcome to Hisabati 👋",
+            "subtitle" to "Manage and track your personal wealth with obsidian elegance",
+            "balance" to "Current Total Balance",
+            "income" to "Income (+)",
+            "expense" to "Expenses (-)",
+            "chart_title" to "Expense Breakdown by Category",
+            "total_expenditure" to "Total Expenditure",
+            "new_income" to "New Income",
+            "new_expense" to "New Expense",
+            "recent_tx" to "Recent Transactions",
+            "no_tx" to "No transactions logged yet.",
+            "categories" to "Categories",
+            "add_category" to "Add Category",
+            "category_desc" to "Custom budget and tracking categories",
+            "schedule" to "Scheduled",
+            "schedule_desc" to "Manage monthly agreements, subscriptions, and wages",
+            "add_schedule" to "Schedule Action",
+            "no_schedule" to "No recurring payments set up.",
+            "reminders" to "Reminders",
+            "reminders_desc" to "Be notified of bill dates and daily logs",
+            "add_reminder" to "New Reminder",
+            "no_reminders" to "No active billing notifications.",
+            "settings" to "Settings",
+            "settings_desc" to "Tailor Hisabati to your preference",
+            "language" to "Application Language",
+            "currency" to "Preferred Currency",
+            "clear_data" to "Clear All Data",
+            "clear_warning" to "Are you sure you want to completely erase your records? This cannot be undone.",
+            "confirm" to "Confirm",
+            "cancel" to "Cancel",
+            "notes" to "Notes",
+            "title" to "Title",
+            "amount" to "Amount",
+            "category" to "Category",
+            "save" to "Save",
+            "day" to "Day of Month",
+            "time" to "Time (HH:mm)",
+            "type" to "Type",
+            "enabled" to "Enabled",
+            "disabled" to "Disabled",
+            "Food" to "Food",
+            "Transport" to "Transportation",
+            "Bills" to "Bills & Utilities",
+            "Entertainment" to "Entertainment",
+            "Clothing" to "Clothing",
+            "Health" to "Health & Meds",
+            "Salary" to "Salary / Wage",
+            "Investment" to "Investments",
+            "Gift" to "Gifts / Awards",
+            "Others" to "Others",
+            "add_tx" to "Add Transaction",
+            "income_term" to "Income",
+            "expense_term" to "Expense",
+            "daily_exp" to "Daily Expense",
+            "bill_pay" to "Bill Payment",
+            "due_on" to "Due on day",
+            "every_month" to "every month at"
+        )
+        val ar = mapOf(
+            "app_title" to "حساباتي المالية",
+            "greeting" to "مرحباً بك في حساباتي 👋",
+            "subtitle" to "أدر وتتبع أموالك الخاصة بكل يسر وسهولة واحترافية",
+            "balance" to "الرصيد الكلي الحالي",
+            "income" to "الواردات (+)",
+            "expense" to "المصروفات (-)",
+            "chart_title" to "تفصيل بياني للمصروفات حسب الفئة",
+            "total_expenditure" to "إجمالي النفقات",
+            "new_income" to "وارد جديد",
+            "new_expense" to "مصروف جديد",
+            "recent_tx" to "آخر المعاملات والعمليات المسجلة",
+            "no_tx" to "لا توجد عمليات مسجلة حالياً.",
+            "categories" to "التصنيفات",
+            "add_category" to "إضافة فئة",
+            "category_desc" to "تصنيفات الدخل والمصاريف المخصصة لتنظيم عملياتك",
+            "schedule" to "المجدولة",
+            "schedule_desc" to "الأقساط الشهرية، الرواتب والاشتراكات المقيدة آلياً",
+            "add_schedule" to "جدولة معاملة",
+            "no_schedule" to "لا يوجد قيود مجدولة شهرياً حالياً.",
+            "reminders" to "التنبيهات",
+            "reminders_desc" to "تذكير بخصوص تعقب وتسجيل المصروفات اليومية والفواتير",
+            "add_reminder" to "تذكير جديد",
+            "no_reminders" to "لا توجد تذكيرات مميزة حالياً.",
+            "settings" to "الإعدادات",
+            "settings_desc" to "اضبط خيارات وتفضيلات التطبيق الأساسية",
+            "language" to "لغة التطبيق",
+            "currency" to "العملة الرئيسية",
+            "clear_data" to "مسح كافة البيانات",
+            "clear_warning" to "هل أنت متأكد تمامًا من مسح وحذف كافة العمليات والبيانات التراكمية؟ لا يمكن الاسترجاع لاحقاً.",
+            "confirm" to "تأكيد",
+            "cancel" to "إلغاء",
+            "notes" to "ملاحظات",
+            "title" to "العنوان",
+            "amount" to "المبلغ",
+            "category" to "التصنيف",
+            "save" to "حفظ",
+            "day" to "يوم الاستحقاق",
+            "time" to "الوقت (ساعة:دقيقة)",
+            "type" to "النوع",
+            "enabled" to "مفعل",
+            "disabled" to "معطل",
+            "Food" to "طعام",
+            "Transport" to "مواصلات",
+            "Bills" to "فواتير",
+            "Entertainment" to "ترفيه",
+            "Clothing" to "ملابس",
+            "Health" to "أدوية / صحة",
+            "Salary" to "راتب",
+            "Investment" to "إستثمار",
+            "Gift" to "قط/منحة",
+            "Others" to "أخرى",
+            "add_tx" to "إضافة عملية جديدة",
+            "income_term" to "وارد",
+            "expense_term" to "مصروف",
+            "daily_exp" to "مصروف يومي",
+            "bill_pay" to "دفع فاتورة",
+            "due_on" to "تستحق يوم",
+            "every_month" to "من كل شهر الساعة"
+        )
+        return if (lang == "ar") {
+            ar[key] ?: en[key] ?: key
+        } else {
+            en[key] ?: key
+        }
+    }
+}
+
+// Format Amount with Custom Selected Currency Symbol
+fun formatCurrencyAmount(amount: Double, currency: String): String {
+    val df = DecimalFormat("#,###.##")
+    val formatted = df.format(amount)
+    return when (currency) {
+        "USD" -> "$$formatted"
+        "EUR" -> "€$formatted"
+        "EGP" -> "$formatted EGP"
+        "SAR" -> "$formatted SAR"
+        else -> "$formatted $"
+    }
+}
+
 fun parseHexColor(hex: String): Color {
     return try {
         val cleanHex = hex.removePrefix("#")
@@ -102,30 +245,30 @@ fun getCategoryIconDynamic(categoryName: String, categoriesList: List<CategoryEn
 
 fun getCategoryColor(categoryName: String): Color {
     return when (categoryName) {
-        "طعام" -> Color(0xFFF59E0B)
-        "مواصلات" -> Color(0xFF14B8A6)
-        "فواتير" -> Color(0xFF3B82F6)
-        "ترفيه" -> Color(0xFFEC4899)
-        "ملابس" -> Color(0xFF8B5CF6)
-        "أدوية" -> Color(0xFFEF4444)
-        "راتب" -> Color(0xFF10B981)
-        "إستثمار" -> Color(0xFF059669)
-        "قط/منحة" -> Color(0xFFEAB308)
+        "Food" -> Color(0xFFF59E0B)
+        "Transport" -> Color(0xFF14B8A6)
+        "Bills" -> Color(0xFF3B82F6)
+        "Entertainment" -> Color(0xFFEC4899)
+        "Clothing" -> Color(0xFF8B5CF6)
+        "Health" -> Color(0xFFEF4444)
+        "Salary" -> Color(0xFF10B981)
+        "Investment" -> Color(0xFF059669)
+        "Gift" -> Color(0xFFEAB308)
         else -> Color(0xFF6B7280)
     }
 }
 
 fun getCategoryIcon(categoryName: String): ImageVector {
     return when (categoryName) {
-        "طعام" -> Icons.Default.Restaurant
-        "مواصلات" -> Icons.Default.DirectionsCar
-        "فواتير" -> Icons.Default.Receipt
-        "ترفيه" -> Icons.Default.SportsEsports
-        "ملابس" -> Icons.Default.ShoppingBag
-        "أدوية" -> Icons.Default.MedicalServices
-        "راتب" -> Icons.Default.Work
-        "إستثمار" -> Icons.Default.TrendingUp
-        "قط/منحة" -> Icons.Default.CardGiftcard
+        "Food" -> Icons.Default.Restaurant
+        "Transport" -> Icons.Default.DirectionsCar
+        "Bills" -> Icons.Default.Receipt
+        "Entertainment" -> Icons.Default.SportsEsports
+        "Clothing" -> Icons.Default.ShoppingBag
+        "Health" -> Icons.Default.MedicalServices
+        "Salary" -> Icons.Default.Work
+        "Investment" -> Icons.Default.TrendingUp
+        "Gift" -> Icons.Default.CardGiftcard
         else -> Icons.Default.Category
     }
 }
@@ -139,14 +282,19 @@ fun FinanceApp(viewModel: FinanceViewModel) {
     val categories by viewModel.categories.collectAsState(initial = emptyList())
     val reminders by viewModel.reminders.collectAsState(initial = emptyList())
 
+    val selectedLanguage by viewModel.selectedLanguage.collectAsState()
+    val selectedCurrency by viewModel.selectedCurrency.collectAsState()
+
     var showAddTxDialog by remember { mutableStateOf(false) }
     var dialogIsIncome by remember { mutableStateOf(false) }
     var showAddRecDialog by remember { mutableStateOf(false) }
     var showAddCatDialog by remember { mutableStateOf(false) }
     var showAddRemDialog by remember { mutableStateOf(false) }
 
-    // Enforce Arabic RTL Layout Direction globally across the screen
-    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+    // Enforce dynamic layout direction based on chosen language (ar = RTL, en = LTR)
+    val layoutDir = if (selectedLanguage == "ar") LayoutDirection.Rtl else LayoutDirection.Ltr
+
+    CompositionLocalProvider(LocalLayoutDirection provides layoutDir) {
         MaterialTheme(
             colorScheme = darkColorScheme(
                 background = ObsidianBackground,
@@ -167,8 +315,8 @@ fun FinanceApp(viewModel: FinanceViewModel) {
                         NavigationBarItem(
                             selected = selectedTab == 0,
                             onClick = { selectedTab = 0 },
-                            icon = { Icon(Icons.Default.Dashboard, contentDescription = "الرئيسية") },
-                            label = { Text("الرئيسية", fontSize = 11.sp, fontWeight = FontWeight.Bold) },
+                            icon = { Icon(Icons.Default.Dashboard, contentDescription = Trans.get("overview", selectedLanguage)) },
+                            label = { Text(if (Trans.get("schedule", selectedLanguage) == "Scheduled") "Overview" else "الرئيسية", fontSize = 11.sp, fontWeight = FontWeight.Bold) },
                             colors = NavigationBarItemDefaults.colors(
                                 selectedIconColor = ObsidianBackground,
                                 selectedTextColor = GoldAccent,
@@ -180,8 +328,8 @@ fun FinanceApp(viewModel: FinanceViewModel) {
                         NavigationBarItem(
                             selected = selectedTab == 1,
                             onClick = { selectedTab = 1 },
-                            icon = { Icon(Icons.Default.Category, contentDescription = "التصنيفات") },
-                            label = { Text("التصنيفات", fontSize = 11.sp, fontWeight = FontWeight.Bold) },
+                            icon = { Icon(Icons.Default.Category, contentDescription = Trans.get("categories", selectedLanguage)) },
+                            label = { Text(Trans.get("categories", selectedLanguage), fontSize = 11.sp, fontWeight = FontWeight.Bold) },
                             colors = NavigationBarItemDefaults.colors(
                                 selectedIconColor = ObsidianBackground,
                                 selectedTextColor = GoldAccent,
@@ -193,8 +341,8 @@ fun FinanceApp(viewModel: FinanceViewModel) {
                         NavigationBarItem(
                             selected = selectedTab == 2,
                             onClick = { selectedTab = 2 },
-                            icon = { Icon(Icons.Default.Autorenew, contentDescription = "المعاملات الدورية") },
-                            label = { Text("المجدولة", fontSize = 11.sp, fontWeight = FontWeight.Bold) },
+                            icon = { Icon(Icons.Default.Autorenew, contentDescription = Trans.get("schedule", selectedLanguage)) },
+                            label = { Text(Trans.get("schedule", selectedLanguage), fontSize = 11.sp, fontWeight = FontWeight.Bold) },
                             colors = NavigationBarItemDefaults.colors(
                                 selectedIconColor = ObsidianBackground,
                                 selectedTextColor = GoldAccent,
@@ -206,8 +354,21 @@ fun FinanceApp(viewModel: FinanceViewModel) {
                         NavigationBarItem(
                             selected = selectedTab == 3,
                             onClick = { selectedTab = 3 },
-                            icon = { Icon(Icons.Default.NotificationsActive, contentDescription = "التنبيهات") },
-                            label = { Text("التنبيهات", fontSize = 11.sp, fontWeight = FontWeight.Bold) },
+                            icon = { Icon(Icons.Default.NotificationsActive, contentDescription = Trans.get("reminders", selectedLanguage)) },
+                            label = { Text(Trans.get("reminders", selectedLanguage), fontSize = 11.sp, fontWeight = FontWeight.Bold) },
+                            colors = NavigationBarItemDefaults.colors(
+                                selectedIconColor = ObsidianBackground,
+                                selectedTextColor = GoldAccent,
+                                indicatorColor = GoldAccent,
+                                unselectedIconColor = TextMuted,
+                                unselectedTextColor = TextMuted
+                            )
+                        )
+                        NavigationBarItem(
+                            selected = selectedTab == 4,
+                            onClick = { selectedTab = 4 },
+                            icon = { Icon(Icons.Default.Settings, contentDescription = Trans.get("settings", selectedLanguage)) },
+                            label = { Text(Trans.get("settings", selectedLanguage), fontSize = 11.sp, fontWeight = FontWeight.Bold) },
                             colors = NavigationBarItemDefaults.colors(
                                 selectedIconColor = ObsidianBackground,
                                 selectedTextColor = GoldAccent,
@@ -229,29 +390,41 @@ fun FinanceApp(viewModel: FinanceViewModel) {
                         0 -> DashboardScreen(
                             transactions = transactions,
                             categoriesList = categories,
+                            lang = selectedLanguage,
+                            currency = selectedCurrency,
                             onAddTransaction = { isIncome ->
                                 dialogIsIncome = isIncome
                                 showAddTxDialog = true
                             },
-                            onDeleteTransaction = { viewModel.deleteTransaction(it) },
-                            onClearAll = { viewModel.clearAllTransactions() }
+                            onDeleteTransaction = { viewModel.deleteTransaction(it) }
                         )
                         1 -> CategoriesScreen(
                             categories = categories,
+                            lang = selectedLanguage,
                             onAddCategoryClick = { showAddCatDialog = true },
                             onDeleteCategory = { viewModel.deleteCategory(it) }
                         )
                         2 -> RecurringScreen(
                             recurring = recurring,
                             categoriesList = categories,
+                            lang = selectedLanguage,
+                            currency = selectedCurrency,
                             onAddRecurringClick = { showAddRecDialog = true },
                             onDeleteRecurring = { viewModel.deleteRecurringTransaction(it) }
                         )
                         3 -> RemindersScreen(
                             reminders = reminders,
+                            lang = selectedLanguage,
                             onAddReminderClick = { showAddRemDialog = true },
                             onToggleReminder = { viewModel.toggleReminderEnabled(it) },
                             onDeleteReminder = { viewModel.deleteReminder(it) }
+                        )
+                        4 -> SettingsScreen(
+                            lang = selectedLanguage,
+                            currency = selectedCurrency,
+                            onLanguageChange = { viewModel.setLanguage(it) },
+                            onCurrencyChange = { viewModel.setCurrency(it) },
+                            onClearAll = { viewModel.clearAllTransactions() }
                         )
                     }
 
@@ -260,6 +433,7 @@ fun FinanceApp(viewModel: FinanceViewModel) {
                         AddTransactionDialog(
                             isIncome = dialogIsIncome,
                             categoriesList = categories,
+                            lang = selectedLanguage,
                             onDismiss = { showAddTxDialog = false },
                             onConfirm = { title, amount, category, notes ->
                                 val finalAmount = if (dialogIsIncome) amount else -amount
@@ -272,6 +446,7 @@ fun FinanceApp(viewModel: FinanceViewModel) {
                     if (showAddRecDialog) {
                         AddRecurringDialog(
                             categoriesList = categories,
+                            lang = selectedLanguage,
                             onDismiss = { showAddRecDialog = false },
                             onConfirm = { title, amount, type, category, dayOfMonth ->
                                 viewModel.addRecurringTransaction(title, amount, type, category, dayOfMonth)
@@ -282,6 +457,7 @@ fun FinanceApp(viewModel: FinanceViewModel) {
 
                     if (showAddCatDialog) {
                         AddCategoryDialog(
+                            lang = selectedLanguage,
                             onDismiss = { showAddCatDialog = false },
                             onConfirm = { name, isIncome, icon, color ->
                                 viewModel.addCategory(name, isIncome, icon, color)
@@ -292,6 +468,7 @@ fun FinanceApp(viewModel: FinanceViewModel) {
 
                     if (showAddRemDialog) {
                         AddReminderDialog(
+                            lang = selectedLanguage,
                             onDismiss = { showAddRemDialog = false },
                             onConfirm = { title, time, type, dateDay ->
                                 viewModel.addReminder(title, time, type, dateDay)
@@ -312,11 +489,11 @@ fun FinanceApp(viewModel: FinanceViewModel) {
 fun DashboardScreen(
     transactions: List<Transaction>,
     categoriesList: List<CategoryEntity>,
+    lang: String,
+    currency: String,
     onAddTransaction: (Boolean) -> Unit,
-    onDeleteTransaction: (Transaction) -> Unit,
-    onClearAll: () -> Unit
+    onDeleteTransaction: (Transaction) -> Unit
 ) {
-    val df = DecimalFormat("#,###.##")
     val totalIncome = transactions.filter { it.amount > 0 }.sumOf { it.amount }
     val totalExpense = transactions.filter { it.amount < 0 }.sumOf { -it.amount }
     val balance = totalIncome - totalExpense
@@ -336,30 +513,23 @@ fun DashboardScreen(
         ) {
             Column {
                 Text(
-                    text = "مرحباً بك في حساباتي 👋",
+                    text = Trans.get("greeting", lang),
                     color = TextWhite,
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
                 )
                 Text(
-                    text = "أدر وتتبع أموالك الخاصة بكل يسر وسهولة",
+                    text = Trans.get("subtitle", lang),
                     color = TextMuted,
                     fontSize = 11.sp
                 )
             }
-            IconButton(
-                onClick = onClearAll,
-                modifier = Modifier
-                    .background(LightCardBg, CircleShape)
-                    .size(40.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.DeleteForever,
-                    contentDescription = "مسح كافة البيانات",
-                    tint = DebitRed,
-                    modifier = Modifier.size(20.dp)
-                )
-            }
+            Icon(
+                imageVector = Icons.Default.AccountBalanceWallet,
+                contentDescription = null,
+                tint = GoldAccent,
+                modifier = Modifier.size(24.dp)
+            )
         }
 
         // Luxury Balance Card with glowing gold border and Brush Gradients
@@ -381,17 +551,17 @@ fun DashboardScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column {
-                    Text("الرصيد الكلي الحالي", color = TextMuted, fontSize = 12.sp, fontWeight = FontWeight.Medium)
+                    Text(Trans.get("balance", lang), color = TextMuted, fontSize = 12.sp, fontWeight = FontWeight.Medium)
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "${df.format(balance)} ج.م",
+                        text = formatCurrencyAmount(balance, currency),
                         color = if (balance >= 0) CashGreen else DebitRed,
                         fontSize = 24.sp,
                         fontWeight = FontWeight.ExtraBold
                     )
                 }
                 Icon(
-                    imageVector = Icons.Default.AccountBalanceWallet,
+                    imageVector = Icons.Default.MonetizationOn,
                     contentDescription = null,
                     tint = GoldAccent,
                     modifier = Modifier.size(42.dp)
@@ -425,8 +595,8 @@ fun DashboardScreen(
                         Icon(Icons.Default.ArrowDownward, contentDescription = null, tint = CashGreen, modifier = Modifier.size(16.dp))
                     }
                     Column {
-                        Text("الواردات (+)", color = TextMuted, fontSize = 10.sp, fontWeight = FontWeight.Bold)
-                        Text("${df.format(totalIncome)} ج.م", color = CashGreen, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                        Text(Trans.get("income", lang), color = TextMuted, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                        Text(formatCurrencyAmount(totalIncome, currency), color = CashGreen, fontSize = 13.sp, fontWeight = FontWeight.Bold)
                     }
                 }
             }
@@ -452,8 +622,8 @@ fun DashboardScreen(
                         Icon(Icons.Default.ArrowUpward, contentDescription = null, tint = DebitRed, modifier = Modifier.size(16.dp))
                     }
                     Column {
-                        Text("المصروفات (-)", color = TextMuted, fontSize = 10.sp, fontWeight = FontWeight.Bold)
-                        Text("${df.format(totalExpense)} ج.م", color = DebitRed, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                        Text(Trans.get("expense", lang), color = TextMuted, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                        Text(formatCurrencyAmount(totalExpense, currency), color = DebitRed, fontSize = 13.sp, fontWeight = FontWeight.Bold)
                     }
                 }
             }
@@ -472,11 +642,11 @@ fun DashboardScreen(
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     Text(
-                        text = "تفصيل بياني للمصروفات حسب الفئة",
+                        text = Trans.get("chart_title", lang),
                         color = TextWhite,
                         fontWeight = FontWeight.Bold,
                         fontSize = 12.sp,
-                        textAlign = TextAlign.Right,
+                        textAlign = if(lang == "ar") TextAlign.Right else TextAlign.Left,
                         modifier = Modifier.fillMaxWidth()
                     )
                     
@@ -506,8 +676,8 @@ fun DashboardScreen(
                             }
                         }
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text("إجمالي النفقات", color = TextMuted, fontSize = 9.sp, fontWeight = FontWeight.Bold)
-                            Text("${df.format(totalExpense)}", color = TextWhite, fontSize = 15.sp, fontWeight = FontWeight.ExtraBold)
+                            Text(Trans.get("total_expenditure", lang), color = TextMuted, fontSize = 9.sp, fontWeight = FontWeight.Bold)
+                            Text(formatCurrencyAmount(totalExpense, currency), color = TextWhite, fontSize = 14.sp, fontWeight = FontWeight.ExtraBold)
                         }
                     }
 
@@ -527,7 +697,7 @@ fun DashboardScreen(
                                 horizontalArrangement = Arrangement.spacedBy(4.dp)
                             ) {
                                 Box(modifier = Modifier.size(8.dp).clip(CircleShape).background(color))
-                                Text("$catName $pct%", color = TextWhite, fontSize = 9.sp, fontWeight = FontWeight.Bold)
+                                Text("${Trans.get(catName, lang)} $pct%", color = TextWhite, fontSize = 9.sp, fontWeight = FontWeight.Bold)
                             }
                         }
                     }
@@ -551,7 +721,7 @@ fun DashboardScreen(
             ) {
                 Icon(Icons.Default.Add, contentDescription = null, tint = ObsidianBackground)
                 Spacer(modifier = Modifier.width(6.dp))
-                Text("وارد جديد", color = ObsidianBackground, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                Text(Trans.get("new_income", lang), color = ObsidianBackground, fontWeight = FontWeight.Bold, fontSize = 13.sp)
             }
 
             Button(
@@ -565,13 +735,13 @@ fun DashboardScreen(
             ) {
                 Icon(Icons.Default.Remove, contentDescription = null, tint = ObsidianBackground)
                 Spacer(modifier = Modifier.width(6.dp))
-                Text("مصروف جديد", color = ObsidianBackground, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                Text(Trans.get("new_expense", lang), color = ObsidianBackground, fontWeight = FontWeight.Bold, fontSize = 13.sp)
             }
         }
 
         // History Transactions Label
         Text(
-            text = "آخر المعاملات والعمليات المسجلة",
+            text = Trans.get("recent_tx", lang),
             color = TextWhite,
             fontWeight = FontWeight.Bold,
             fontSize = 14.sp
@@ -589,7 +759,7 @@ fun DashboardScreen(
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(Icons.Default.ReceiptLong, contentDescription = null, tint = TextMuted, modifier = Modifier.size(48.dp))
                     Spacer(modifier = Modifier.height(12.dp))
-                    Text("لا توجد عمليات مسجلة حالياً.", color = TextMuted, fontSize = 12.sp)
+                    Text(Trans.get("no_tx", lang), color = TextMuted, fontSize = 12.sp)
                 }
             }
         } else {
@@ -600,6 +770,8 @@ fun DashboardScreen(
                     TransactionRow(
                         transaction = tx,
                         categoriesList = categoriesList,
+                        lang = lang,
+                        currency = currency,
                         onDelete = { onDeleteTransaction(tx) }
                     )
                 }
@@ -612,6 +784,8 @@ fun DashboardScreen(
 fun TransactionRow(
     transaction: Transaction,
     categoriesList: List<CategoryEntity>,
+    lang: String,
+    currency: String,
     onDelete: () -> Unit
 ) {
     val isIncome = transaction.amount > 0
@@ -660,7 +834,7 @@ fun TransactionRow(
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = "${transaction.category} • $dateStr",
+                        text = "${Trans.get(transaction.category, lang)} • $dateStr",
                         color = TextMuted,
                         fontSize = 10.sp
                     )
@@ -679,7 +853,7 @@ fun TransactionRow(
                 val sign = if (isIncome) "+" else ""
                 val color = if (isIncome) CashGreen else DebitRed
                 Text(
-                    text = "$sign${DecimalFormat("#,###.##").format(transaction.amount)} ج.م",
+                    text = "$sign${formatCurrencyAmount(transaction.amount, currency)}",
                     color = color,
                     fontWeight = FontWeight.Bold,
                     fontSize = 13.sp
@@ -698,6 +872,7 @@ fun TransactionRow(
 @Composable
 fun CategoriesScreen(
     categories: List<CategoryEntity>,
+    lang: String,
     onAddCategoryClick: () -> Unit,
     onDeleteCategory: (CategoryEntity) -> Unit
 ) {
@@ -713,8 +888,8 @@ fun CategoriesScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column {
-                Text("إدارة تصنيفات الأموال 📁", color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                Text("تصنيفات الدخل والمصاريف المخصصة لتنظيم عملياتك", color = TextMuted, fontSize = 11.sp)
+                Text(Trans.get("categories", lang), color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                Text(Trans.get("category_desc", lang), color = TextMuted, fontSize = 11.sp)
             }
             Button(
                 onClick = onAddCategoryClick,
@@ -724,7 +899,7 @@ fun CategoriesScreen(
             ) {
                 Icon(Icons.Default.Add, contentDescription = null, tint = ObsidianBackground, modifier = Modifier.size(16.dp))
                 Spacer(modifier = Modifier.width(4.dp))
-                Text("إضافة فئة", color = ObsidianBackground, fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                Text(Trans.get("add_category", lang), color = ObsidianBackground, fontWeight = FontWeight.Bold, fontSize = 11.sp)
             }
         }
 
@@ -734,8 +909,7 @@ fun CategoriesScreen(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            items(categories.size) { index ->
-                val cat = categories[index]
+            items(categories) { cat ->
                 val color = parseHexColor(cat.colorHex)
                 Card(
                     modifier = Modifier.fillMaxWidth().testTag("category_card_${cat.id}"),
@@ -773,9 +947,9 @@ fun CategoriesScreen(
                         }
                         
                         Spacer(modifier = Modifier.height(10.dp))
-                        Text(cat.name, color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                        Text(Trans.get(cat.name, lang), color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 13.sp)
                         Text(
-                            text = if (cat.isIncome) "فوائد/واردات (+)" else "مصروفات دافعة (-)",
+                            text = if (cat.isIncome) Trans.get("income_term", lang) else Trans.get("expense_term", lang),
                             color = if (cat.isIncome) CashGreen else GoldAccent,
                             fontSize = 9.sp,
                             fontWeight = FontWeight.Bold
@@ -794,6 +968,8 @@ fun CategoriesScreen(
 fun RecurringScreen(
     recurring: List<RecurringTransaction>,
     categoriesList: List<CategoryEntity>,
+    lang: String,
+    currency: String,
     onAddRecurringClick: () -> Unit,
     onDeleteRecurring: (RecurringTransaction) -> Unit
 ) {
@@ -809,8 +985,8 @@ fun RecurringScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column {
-                Text("المعاملات والتكرارات الدورية 🔄", color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                Text("الأقساط الشهرية، الرواتب والاشتراكات المقيدة آلياً", color = TextMuted, fontSize = 11.sp)
+                Text(Trans.get("schedule", lang), color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                Text(Trans.get("schedule_desc", lang), color = TextMuted, fontSize = 11.sp)
             }
             Button(
                 onClick = onAddRecurringClick,
@@ -820,7 +996,7 @@ fun RecurringScreen(
             ) {
                 Icon(Icons.Default.Add, contentDescription = null, tint = ObsidianBackground, modifier = Modifier.size(16.dp))
                 Spacer(modifier = Modifier.width(4.dp))
-                Text("جدولة معاملة", color = ObsidianBackground, fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                Text(Trans.get("add_schedule", lang), color = ObsidianBackground, fontWeight = FontWeight.Bold, fontSize = 11.sp)
             }
         }
 
@@ -836,7 +1012,7 @@ fun RecurringScreen(
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(Icons.Default.Schedule, contentDescription = null, tint = TextMuted, modifier = Modifier.size(48.dp))
                     Spacer(modifier = Modifier.height(12.dp))
-                    Text("لا يوجد قيود مجدولة شهرياً حالياً.", color = TextMuted, fontSize = 11.sp)
+                    Text(Trans.get("no_schedule", lang), color = TextMuted, fontSize = 11.sp)
                 }
             }
         } else {
@@ -844,8 +1020,7 @@ fun RecurringScreen(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                items(recurring.size) { index ->
-                    val rec = recurring[index]
+                items(recurring) { rec ->
                     val isIncome = rec.type == "INCOME"
                     val col = getCategoryColorDynamic(rec.category, categoriesList)
                     val icon = getCategoryIconDynamic(rec.category, categoriesList)
@@ -876,7 +1051,7 @@ fun RecurringScreen(
                                 Column {
                                     Text(rec.title, color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 13.sp)
                                     Text(
-                                        text = "يوم ${rec.dayOfMonth} في الشهر الدروي • ${rec.category}",
+                                        text = "${Trans.get("due_on", lang)} ${rec.dayOfMonth} • ${Trans.get(rec.category, lang)}",
                                         color = TextMuted,
                                         fontSize = 10.sp
                                     )
@@ -889,13 +1064,13 @@ fun RecurringScreen(
                             ) {
                                 val textCol = if (isIncome) CashGreen else DebitRed
                                 Text(
-                                    text = "${if (isIncome) "+" else "-"}${DecimalFormat("#,###.##").format(rec.amount)} ج.م",
+                                    text = "${if (isIncome) "+" else "-"}${formatCurrencyAmount(rec.amount, currency)}",
                                     color = textCol,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 13.sp
                                 )
                                 IconButton(onClick = { onDeleteRecurring(rec) }, modifier = Modifier.size(24.dp)) {
-                                    Icon(Icons.Default.Delete, contentDescription = "حذف الجدولة", tint = DebitRed, modifier = Modifier.size(16.dp))
+                                    Icon(Icons.Default.Delete, contentDescription = null, tint = DebitRed, modifier = Modifier.size(16.dp))
                                 }
                             }
                         }
@@ -907,11 +1082,12 @@ fun RecurringScreen(
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Screen D: Reminders and Billing Alarms Management
+// Screen D: Reminders Screen
 // ---------------------------------------------------------------------------------------------------------------------
 @Composable
 fun RemindersScreen(
     reminders: List<Reminder>,
+    lang: String,
     onAddReminderClick: () -> Unit,
     onToggleReminder: (Reminder) -> Unit,
     onDeleteReminder: (Reminder) -> Unit
@@ -928,8 +1104,8 @@ fun RemindersScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column {
-                Text("منبهات الاستقصاء والتحصيل 🔔", color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                Text("تذكير بخصوص تعقب وتسجيل المصروفات اليومية والفواتير", color = TextMuted, fontSize = 11.sp)
+                Text(Trans.get("reminders", lang), color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                Text(Trans.get("reminders_desc", lang), color = TextMuted, fontSize = 11.sp)
             }
             Button(
                 onClick = onAddReminderClick,
@@ -939,7 +1115,7 @@ fun RemindersScreen(
             ) {
                 Icon(Icons.Default.Add, contentDescription = null, tint = ObsidianBackground, modifier = Modifier.size(16.dp))
                 Spacer(modifier = Modifier.width(4.dp))
-                Text("تذكير جديد", color = ObsidianBackground, fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                Text(Trans.get("add_reminder", lang), color = ObsidianBackground, fontWeight = FontWeight.Bold, fontSize = 11.sp)
             }
         }
 
@@ -955,7 +1131,7 @@ fun RemindersScreen(
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(Icons.Default.NotificationsNone, contentDescription = null, tint = TextMuted, modifier = Modifier.size(48.dp))
                     Spacer(modifier = Modifier.height(12.dp))
-                    Text("لا توجد تذكيرات مميزة حالياً.", color = TextMuted, fontSize = 11.sp)
+                    Text(Trans.get("no_reminders", lang), color = TextMuted, fontSize = 11.sp)
                 }
             }
         } else {
@@ -963,8 +1139,7 @@ fun RemindersScreen(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                items(reminders.size) { index ->
-                    val rem = reminders[index]
+                items(reminders) { rem ->
                     Card(
                         modifier = Modifier.fillMaxWidth().testTag("reminder_card_${rem.id}"),
                         colors = CardDefaults.cardColors(containerColor = DeepCardBg),
@@ -997,9 +1172,9 @@ fun RemindersScreen(
                                     Text(rem.title, color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 13.sp)
                                     Text(
                                         text = if (rem.type == "DAILY_EXPENSE") {
-                                            "تنبيه يومي آلي الساعة ${rem.timeString}"
+                                            "Daily at ${rem.timeString}"
                                         } else {
-                                            "فاتورة شهرية يوم ${rem.dateDay} في الشهر الساعة ${rem.timeString}"
+                                            "${Trans.get("due_on", lang)} ${rem.dateDay} ${Trans.get("every_month", lang)} ${rem.timeString}"
                                         },
                                         color = TextMuted,
                                         fontSize = 10.sp
@@ -1022,13 +1197,159 @@ fun RemindersScreen(
                                     )
                                 )
                                 IconButton(onClick = { onDeleteReminder(rem) }, modifier = Modifier.size(24.dp)) {
-                                    Icon(Icons.Default.Delete, contentDescription = "حذف التنبية", tint = DebitRed, modifier = Modifier.size(16.dp))
+                                    Icon(Icons.Default.Delete, contentDescription = null, tint = DebitRed, modifier = Modifier.size(16.dp))
                                 }
                             }
                         }
                     }
                 }
             }
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Screen E: Detailed Luxury Settings Screen
+// ---------------------------------------------------------------------------------------------------------------------
+@Composable
+fun SettingsScreen(
+    lang: String,
+    currency: String,
+    onLanguageChange: (String) -> Unit,
+    onCurrencyChange: (String) -> Unit,
+    onClearAll: () -> Unit
+) {
+    var showConfirmClearDialog by remember { mutableStateOf(false) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp)
+    ) {
+        Column {
+            Text(Trans.get("settings", lang), color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            Text(Trans.get("settings_desc", lang), color = TextMuted, fontSize = 11.sp)
+        }
+
+        // Section: Select App Language
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = DeepCardBg),
+            shape = RoundedCornerShape(12.dp),
+            border = BorderStroke(1.dp, LightCardBg)
+        ) {
+            Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Text(Trans.get("language", lang), color = GoldAccent, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(if (lang == "en") GoldAccent else LightCardBg)
+                            .clickable { onLanguageChange("en") }
+                            .padding(12.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text("English 🇬🇧", color = if (lang == "en") ObsidianBackground else TextWhite, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                    }
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(if (lang == "ar") GoldAccent else LightCardBg)
+                            .clickable { onLanguageChange("ar") }
+                            .padding(12.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text("العربية 🇸🇦", color = if (lang == "ar") ObsidianBackground else TextWhite, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                    }
+                }
+            }
+        }
+
+        // Section: Select Primary Currency
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = DeepCardBg),
+            shape = RoundedCornerShape(12.dp),
+            border = BorderStroke(1.dp, LightCardBg)
+        ) {
+            Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Text(Trans.get("currency", lang), color = GoldAccent, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                val currencies = listOf(
+                    "USD" to "Dollar ($)",
+                    "EUR" to "Euro (€)",
+                    "EGP" to "Egyptian Pound (EGP)",
+                    "SAR" to "Saudi Riyal (SAR)"
+                )
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    modifier = Modifier.height(110.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(currencies) { (code, label) ->
+                        val isSelected = currency == code
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(if (isSelected) GoldAccent else LightCardBg)
+                                .clickable { onCurrencyChange(code) }
+                                .padding(10.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(label, color = if (isSelected) ObsidianBackground else TextWhite, fontWeight = FontWeight.Bold, fontSize = 11.sp, textAlign = TextAlign.Center)
+                        }
+                    }
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        // Danger Action: Clear All Database entries
+        Button(
+            onClick = { showConfirmClearDialog = true },
+            colors = ButtonDefaults.buttonColors(containerColor = DebitRed.copy(alpha = 0.2f)),
+            shape = RoundedCornerShape(10.dp),
+            modifier = Modifier.fillMaxWidth().height(48.dp),
+            border = BorderStroke(1.dp, DebitRed)
+        ) {
+            Icon(Icons.Default.DeleteForever, contentDescription = null, tint = DebitRed)
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(Trans.get("clear_data", lang), color = DebitRed, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+        }
+
+        if (showConfirmClearDialog) {
+            AlertDialog(
+                onDismissRequest = { showConfirmClearDialog = false },
+                containerColor = DeepCardBg,
+                title = { Text(Trans.get("clear_data", lang), color = TextWhite, fontWeight = FontWeight.Bold) },
+                text = { Text(Trans.get("clear_warning", lang), color = TextMuted) },
+                confirmButton = {
+                    TextButton(
+                        colors = ButtonDefaults.textButtonColors(contentColor = DebitRed),
+                        onClick = {
+                            onClearAll()
+                            showConfirmClearDialog = false
+                        }
+                    ) {
+                        Text(Trans.get("confirm", lang), fontWeight = FontWeight.Bold)
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        colors = ButtonDefaults.textButtonColors(contentColor = TextWhite),
+                        onClick = { showConfirmClearDialog = false }
+                    ) {
+                        Text(Trans.get("cancel", lang))
+                    }
+                }
+            )
         }
     }
 }
@@ -1041,665 +1362,489 @@ fun RemindersScreen(
 fun AddTransactionDialog(
     isIncome: Boolean,
     categoriesList: List<CategoryEntity>,
+    lang: String,
     onDismiss: () -> Unit,
     onConfirm: (title: String, amount: Double, category: String, notes: String) -> Unit
 ) {
     var title by remember { mutableStateOf("") }
     var amountStr by remember { mutableStateOf("") }
-    var selectedCategory by remember { mutableStateOf("") }
-    var notes by remember { mutableStateOf("") }
-
-    val filteredCats = categoriesList.filter { it.isIncome == isIncome }
-
-    LaunchedEffect(isIncome, categoriesList) {
-        selectedCategory = if (filteredCats.isNotEmpty()) filteredCats.first().name else "أخرى"
+    var selectedCategory by remember { 
+        mutableStateOf(categoriesList.firstOrNull { it.isIncome == isIncome }?.name ?: "Others") 
     }
+    var notes by remember { mutableStateOf("") }
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        modifier = Modifier.testTag("add_transaction_dialog"),
-        confirmButton = {
-            Button(
-                onClick = {
-                    val amt = amountStr.toDoubleOrNull() ?: 0.0
-                    if (title.isNotEmpty() && amt > 0) {
-                        onConfirm(title, amt, selectedCategory, notes)
-                    }
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = if (isIncome) CashGreen else GoldAccent),
-                shape = RoundedCornerShape(10.dp)
-            ) {
-                Text("إدخال المعاملة", color = ObsidianBackground, fontWeight = FontWeight.Bold)
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("إلغاء", color = TextMuted)
-            }
-        },
-        title = {
-            Text(
-                text = if (isIncome) "إضافة عملية وارد مالي (+)" else "تسجيل فاتورة صادر ومصروف (-)",
-                color = TextWhite,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.End,
-                modifier = Modifier.fillMaxWidth()
-            )
-        },
         containerColor = DeepCardBg,
+        title = { 
+            Text(
+                text = if (isIncome) Trans.get("new_income", lang) else Trans.get("new_expense", lang),
+                color = if (isIncome) CashGreen else GoldAccent,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp
+            ) 
+        },
         text = {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                horizontalAlignment = Alignment.End
-            ) {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 OutlinedTextField(
                     value = title,
                     onValueChange = { title = it },
-                    label = { Text("عنوان العملية (مثال: راتب، طلب دليفري)") },
-                    textStyle = TextStyle(textAlign = TextAlign.Right, color = TextWhite),
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(10.dp),
+                    label = { Text(Trans.get("title", lang)) },
+                    singleLine = true,
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = TextWhite,
-                        unfocusedTextColor = TextWhite,
-                        focusedLabelColor = if (isIncome) CashGreen else GoldAccent,
-                        unfocusedLabelColor = TextMuted
-                    )
+                        focusedBorderColor = GoldAccent,
+                        focusedLabelColor = GoldAccent,
+                        cursorColor = GoldAccent
+                    ),
+                    modifier = Modifier.fillMaxWidth()
                 )
 
                 OutlinedTextField(
                     value = amountStr,
                     onValueChange = { amountStr = it },
-                    label = { Text("المبلغ المالي (ج.م)") },
-                    textStyle = TextStyle(textAlign = TextAlign.Right, color = TextWhite),
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(10.dp),
-                    keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
-                        keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
+                    label = { Text(Trans.get("amount", lang)) },
+                    singleLine = true,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = GoldAccent,
+                        focusedLabelColor = GoldAccent,
+                        cursorColor = GoldAccent
                     ),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = TextWhite,
-                        unfocusedTextColor = TextWhite,
-                        focusedLabelColor = if (isIncome) CashGreen else GoldAccent,
-                        unfocusedLabelColor = TextMuted
-                    )
+                    modifier = Modifier.fillMaxWidth()
                 )
 
-                OutlinedTextField(
-                    value = notes,
-                    onValueChange = { notes = it },
-                    label = { Text("ملاحظات إضافية") },
-                    textStyle = TextStyle(textAlign = TextAlign.Right, color = TextWhite),
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = TextWhite,
-                        unfocusedTextColor = TextWhite,
-                        focusedLabelColor = if (isIncome) CashGreen else GoldAccent,
-                        unfocusedLabelColor = TextMuted
-                    )
-                )
-
-                Text("اختر التصنيف المالي", color = TextMuted, fontSize = 11.sp, fontWeight = FontWeight.Bold)
-                
+                // Category chooser dropdown / row selection
+                Text(Trans.get("category", lang), color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 12.sp)
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .horizontalScroll(rememberScrollState()),
-                    horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.End)
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
-                    filteredCats.forEach { cat ->
+                    categoriesList.filter { it.isIncome == isIncome }.forEach { cat ->
                         val isSelected = selectedCategory == cat.name
-                        val color = parseHexColor(cat.colorHex)
-                        FilterChip(
-                            selected = isSelected,
-                            onClick = { selectedCategory = cat.name },
-                            label = { Text(cat.name, fontSize = 11.sp) },
-                            colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = if (isIncome) CashGreen else GoldAccent,
-                                selectedLabelColor = ObsidianBackground
-                            ),
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = mapIconNameToVector(cat.iconName),
-                                    contentDescription = cat.name,
-                                    modifier = Modifier.size(14.dp),
-                                    tint = if (isSelected) ObsidianBackground else color
-                                )
-                            }
-                        )
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(if (isSelected) GoldAccent else LightCardBg)
+                                .clickable { selectedCategory = cat.name }
+                                .padding(horizontal = 12.dp, vertical = 8.dp)
+                        ) {
+                            Text(
+                                text = Trans.get(cat.name, lang),
+                                color = if (isSelected) ObsidianBackground else TextWhite,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 11.sp
+                            )
+                        }
                     }
                 }
+
+                OutlinedTextField(
+                    value = notes,
+                    onValueChange = { notes = it },
+                    label = { Text(Trans.get("notes", lang)) },
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = GoldAccent,
+                        focusedLabelColor = GoldAccent,
+                        cursorColor = GoldAccent
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(
+                colors = ButtonDefaults.textButtonColors(contentColor = GoldAccent),
+                onClick = {
+                    val amount = amountStr.toDoubleOrNull() ?: 0.0
+                    if (title.isNotEmpty() && amount > 0) {
+                        onConfirm(title, amount, selectedCategory, notes)
+                    }
+                }
+            ) {
+                Text(Trans.get("save", lang), fontWeight = FontWeight.Bold)
+            }
+        },
+        dismissButton = {
+            TextButton(
+                colors = ButtonDefaults.textButtonColors(contentColor = TextWhite),
+                onClick = onDismiss
+            ) {
+                Text(Trans.get("cancel", lang))
             }
         }
     )
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Dialog B: Dialog for adding customised recurring/config schedules
+// Dialog B: Dialog for adding recurring scheduled items
 // ---------------------------------------------------------------------------------------------------------------------
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddRecurringDialog(
     categoriesList: List<CategoryEntity>,
+    lang: String,
     onDismiss: () -> Unit,
     onConfirm: (title: String, amount: Double, type: String, category: String, dayOfMonth: Int) -> Unit
 ) {
     var title by remember { mutableStateOf("") }
     var amountStr by remember { mutableStateOf("") }
-    var recurringType by remember { mutableStateOf("EXPENSE") } // "INCOME" or "EXPENSE"
-    var selectedCategory by remember { mutableStateOf("") }
-    var dayOfMonth by remember { mutableStateOf(1) }
-
-    val filteredCats = categoriesList.filter { it.isIncome == (recurringType == "INCOME") }
-
-    LaunchedEffect(recurringType, categoriesList) {
-        selectedCategory = if (filteredCats.isNotEmpty()) filteredCats.first().name else "أخرى"
-    }
+    var type by remember { mutableStateOf("EXPENSE") } // INCOME or EXPENSE
+    var selectedCategory by remember { mutableStateOf(categoriesList.firstOrNull()?.name ?: "Others") }
+    var dayOfMonthStr by remember { mutableStateOf("1") }
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        modifier = Modifier.testTag("add_recurring_dialog"),
-        confirmButton = {
-            Button(
-                onClick = {
-                    val amt = amountStr.toDoubleOrNull() ?: 0.0
-                    if (title.isNotEmpty() && amt > 0) {
-                        onConfirm(title, amt, recurringType, selectedCategory, dayOfMonth)
-                    }
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = GoldAccent),
-                shape = RoundedCornerShape(10.dp)
-            ) {
-                Text("حفظ المعاملة الدورية", color = ObsidianBackground, fontWeight = FontWeight.Bold)
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("إلغاء", color = TextMuted)
-            }
-        },
-        title = {
-            Text(
-                text = "جدولة عملية مستمرة تلقائياً",
-                color = TextWhite,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.End,
-                modifier = Modifier.fillMaxWidth()
-            )
-        },
         containerColor = DeepCardBg,
+        title = { Text(Trans.get("add_schedule", lang), color = GoldAccent, fontWeight = FontWeight.Bold, fontSize = 16.sp) },
         text = {
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                horizontalAlignment = Alignment.End
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                modifier = Modifier.verticalScroll(rememberScrollState())
             ) {
                 OutlinedTextField(
                     value = title,
                     onValueChange = { title = it },
-                    label = { Text("عنوان العملية الدورية (قسط السيارة، الفايبر الافتراضي)") },
-                    textStyle = TextStyle(textAlign = TextAlign.Right, color = TextWhite),
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = TextWhite,
-                        unfocusedTextColor = TextWhite,
-                        focusedLabelColor = GoldAccent,
-                        unfocusedLabelColor = TextMuted
-                    )
+                    label = { Text(Trans.get("title", lang)) },
+                    singleLine = true,
+                    colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = GoldAccent, focusedLabelColor = GoldAccent),
+                    modifier = Modifier.fillMaxWidth()
                 )
 
                 OutlinedTextField(
                     value = amountStr,
                     onValueChange = { amountStr = it },
-                    label = { Text("المبلغ المالي (ج.م)") },
-                    textStyle = TextStyle(textAlign = TextAlign.Right, color = TextWhite),
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(10.dp),
-                    keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
-                        keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
-                    ),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = TextWhite,
-                        unfocusedTextColor = TextWhite,
-                        focusedLabelColor = GoldAccent,
-                        unfocusedLabelColor = TextMuted
-                    )
+                    label = { Text(Trans.get("amount", lang)) },
+                    singleLine = true,
+                    colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = GoldAccent, focusedLabelColor = GoldAccent),
+                    modifier = Modifier.fillMaxWidth()
                 )
 
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.End
-                ) {
-                    Text("نوع العملية المستمرة", color = TextMuted, fontSize = 11.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 6.dp))
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Surface(
-                            modifier = Modifier
-                                .weight(1f)
-                                .clickable { recurringType = "EXPENSE" },
-                            shape = RoundedCornerShape(8.dp),
-                            color = if (recurringType == "EXPENSE") DebitRed.copy(alpha = 0.2f) else LightCardBg,
-                            border = BorderStroke(1.dp, if (recurringType == "EXPENSE") DebitRed else Color.Transparent)
-                        ) {
-                            Box(modifier = Modifier.padding(10.dp), contentAlignment = Alignment.Center) {
-                                Text("مصروف متكرر (-)", color = if (recurringType == "EXPENSE") DebitRed else TextWhite, fontWeight = FontWeight.Bold, fontSize = 11.sp)
-                            }
-                        }
-
-                        Surface(
-                            modifier = Modifier
-                                .weight(1f)
-                                .clickable { recurringType = "INCOME" },
-                            shape = RoundedCornerShape(8.dp),
-                            color = if (recurringType == "INCOME") CashGreen.copy(alpha = 0.2f) else LightCardBg,
-                            border = BorderStroke(1.dp, if (recurringType == "INCOME") CashGreen else Color.Transparent)
-                        ) {
-                            Box(modifier = Modifier.padding(10.dp), contentAlignment = Alignment.Center) {
-                                Text("دخل متكرر (+)", color = if (recurringType == "INCOME") CashGreen else TextWhite, fontWeight = FontWeight.Bold, fontSize = 11.sp)
-                            }
-                        }
-                    }
-                }
-
-                Text("يوم التنفيذ الشهري من كل شهر", color = TextMuted, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                // Type select Income / Expense
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    IconButton(onClick = { if (dayOfMonth > 1) dayOfMonth-- }, modifier = Modifier.background(LightCardBg, CircleShape).size(36.dp)) {
-                        Icon(Icons.Default.Remove, null, tint = TextWhite)
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(if (type == "INCOME") CashGreen else LightCardBg)
+                            .clickable { type = "INCOME" }
+                            .padding(10.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(Trans.get("income_term", lang), color = if (type == "INCOME") ObsidianBackground else TextWhite, fontWeight = FontWeight.Bold, fontSize = 12.sp)
                     }
-                    Text("يوم $dayOfMonth في الشهر", color = GoldAccent, fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                    IconButton(onClick = { if (dayOfMonth < 31) dayOfMonth++ }, modifier = Modifier.background(LightCardBg, CircleShape).size(36.dp)) {
-                        Icon(Icons.Default.Add, null, tint = TextWhite)
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(if (type == "EXPENSE") GoldAccent else LightCardBg)
+                            .clickable { type = "EXPENSE" }
+                            .padding(10.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(Trans.get("expense_term", lang), color = if (type == "EXPENSE") ObsidianBackground else TextWhite, fontWeight = FontWeight.Bold, fontSize = 12.sp)
                     }
                 }
 
-                Text("اختر التصنيف المالي", color = TextMuted, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                OutlinedTextField(
+                    value = dayOfMonthStr,
+                    onValueChange = { dayOfMonthStr = it },
+                    label = { Text(Trans.get("day", lang)) },
+                    singleLine = true,
+                    colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = GoldAccent, focusedLabelColor = GoldAccent),
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                // Categories selection
+                Text(Trans.get("category", lang), color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 12.sp)
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .horizontalScroll(rememberScrollState()),
-                    horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.End)
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
-                    filteredCats.forEach { cat ->
+                    categoriesList.filter { it.isIncome == (type == "INCOME") }.forEach { cat ->
                         val isSelected = selectedCategory == cat.name
-                        val color = parseHexColor(cat.colorHex)
-                        FilterChip(
-                            selected = isSelected,
-                            onClick = { selectedCategory = cat.name },
-                            label = { Text(cat.name, fontSize = 11.sp) },
-                            colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = if (recurringType == "INCOME") CashGreen else GoldAccent,
-                                selectedLabelColor = ObsidianBackground
-                            ),
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = mapIconNameToVector(cat.iconName),
-                                    contentDescription = cat.name,
-                                    modifier = Modifier.size(14.dp),
-                                    tint = if (isSelected) ObsidianBackground else color
-                                )
-                            }
-                        )
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(if (isSelected) GoldAccent else LightCardBg)
+                                .clickable { selectedCategory = cat.name }
+                                .padding(horizontal = 12.dp, vertical = 8.dp)
+                        ) {
+                            Text(Trans.get(cat.name, lang), color = if (isSelected) ObsidianBackground else TextWhite, fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                        }
                     }
                 }
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    val amount = amountStr.toDoubleOrNull() ?: 0.0
+                    val day = dayOfMonthStr.toIntOrNull() ?: 1
+                    if (title.isNotEmpty() && amount > 0) {
+                        onConfirm(title, amount, type, selectedCategory, day)
+                    }
+                }
+            ) {
+                Text(Trans.get("save", lang), color = GoldAccent, fontWeight = FontWeight.Bold)
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(Trans.get("cancel", lang), color = TextWhite)
             }
         }
     )
 }
 
-// Preset color constants for new category insertions
-val CATEGORY_PRESETS_COLORS = listOf(
-    "#F59E0B", // Amber Preset
-    "#10B981", // Emerald Preset
-    "#3B82F6", // Blue Preset
-    "#8B5CF6", // Purple Preset
-    "#EC4899", // Pink Preset
-    "#14B8A6", // Teal Preset
-    "#F43F5E", // Rose Preset
-    "#FF5722"  // Coral Preset
-)
-
-// Preset icon pairing mappings
-val CATEGORY_PRESETS_ICONS = listOf(
-    "Restaurant" to Icons.Default.Restaurant,
-    "DirectionsCar" to Icons.Default.DirectionsCar,
-    "Receipt" to Icons.Default.Receipt,
-    "SportsEsports" to Icons.Default.SportsEsports,
-    "ShoppingBag" to Icons.Default.ShoppingBag,
-    "MedicalServices" to Icons.Default.MedicalServices,
-    "School" to Icons.Default.School,
-    "FitnessCenter" to Icons.Default.FitnessCenter,
-    "Home" to Icons.Default.Home,
-    "Build" to Icons.Default.Build,
-    "CardGiftcard" to Icons.Default.CardGiftcard,
-    "Lightbulb" to Icons.Default.Lightbulb
-)
-
 // ---------------------------------------------------------------------------------------------------------------------
-// Dialog C: Dialog for creating dynamic custom categories
+// Dialog C: Dialog for adding categories
 // ---------------------------------------------------------------------------------------------------------------------
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddCategoryDialog(
+    lang: String,
     onDismiss: () -> Unit,
     onConfirm: (name: String, isIncome: Boolean, iconName: String, colorHex: String) -> Unit
 ) {
     var name by remember { mutableStateOf("") }
     var isIncome by remember { mutableStateOf(false) }
-    var selectedColor by remember { mutableStateOf(CATEGORY_PRESETS_COLORS.first()) }
-    var selectedIcon by remember { mutableStateOf(CATEGORY_PRESETS_ICONS.first().first) }
+    var selectedIcon by remember { mutableStateOf("Category") }
+    var selectedColor by remember { mutableStateOf("#3B82F6") } // Default Blue
+
+    val icons = listOf(
+        "Restaurant", "DirectionsCar", "Receipt", "SportsEsports", "ShoppingBag",
+        "MedicalServices", "Home", "Build", "CardGiftcard", "Lightbulb", "Work"
+    )
+    val colors = listOf(
+        "#EF4444", "#F59E0B", "#10B981", "#14B8A6", "#3B82F6", "#8B5CF6", "#EC4899", "#6B7280"
+    )
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        modifier = Modifier.testTag("add_category_dialog"),
-        confirmButton = {
-            Button(
-                onClick = {
-                    if (name.isNotEmpty()) {
-                        onConfirm(name, isIncome, selectedIcon, selectedColor)
-                    }
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = GoldAccent),
-                shape = RoundedCornerShape(10.dp)
-            ) {
-                Text("تأكيد وحفظ", color = ObsidianBackground, fontWeight = FontWeight.Bold)
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("إلغاء", color = TextMuted)
-            }
-        },
-        title = {
-            Text(
-                text = "إنشاء تصنيف ومجوعة جديدة",
-                color = TextWhite,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.End,
-                modifier = Modifier.fillMaxWidth()
-            )
-        },
         containerColor = DeepCardBg,
+        title = { Text(Trans.get("add_category", lang), color = GoldAccent, fontWeight = FontWeight.Bold, fontSize = 16.sp) },
         text = {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
-                horizontalAlignment = Alignment.End
+                modifier = Modifier.verticalScroll(rememberScrollState())
             ) {
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text("اسم التصنيف (مثال: مستودع، أكل قطط)") },
-                    textStyle = TextStyle(textAlign = TextAlign.Right, color = TextWhite),
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = TextWhite,
-                        unfocusedTextColor = TextWhite,
-                        focusedLabelColor = GoldAccent,
-                        unfocusedLabelColor = TextMuted
-                    )
+                    label = { Text(Trans.get("title", lang)) },
+                    singleLine = true,
+                    colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = GoldAccent, focusedLabelColor = GoldAccent),
+                    modifier = Modifier.fillMaxWidth()
                 )
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    Surface(
+                    Box(
                         modifier = Modifier
                             .weight(1f)
-                            .clickable { isIncome = false },
-                        shape = RoundedCornerShape(8.dp),
-                        color = if (!isIncome) DebitRed.copy(alpha = 0.2f) else LightCardBg,
-                        border = BorderStroke(1.dp, if (!isIncome) DebitRed else Color.Transparent)
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(if (isIncome) CashGreen else LightCardBg)
+                            .clickable { isIncome = true }
+                            .padding(10.dp),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Box(modifier = Modifier.padding(10.dp), contentAlignment = Alignment.Center) {
-                            Text("مصروفات (-)", color = if (!isIncome) DebitRed else TextWhite, fontWeight = FontWeight.Bold, fontSize = 11.sp)
-                        }
+                        Text(Trans.get("income_term", lang), color = if (isIncome) ObsidianBackground else TextWhite, fontWeight = FontWeight.Bold, fontSize = 12.sp)
                     }
-
-                    Surface(
+                    Box(
                         modifier = Modifier
                             .weight(1f)
-                            .clickable { isIncome = true },
-                        shape = RoundedCornerShape(8.dp),
-                        color = if (isIncome) CashGreen.copy(alpha = 0.2f) else LightCardBg,
-                        border = BorderStroke(1.dp, if (isIncome) CashGreen else Color.Transparent)
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(if (!isIncome) GoldAccent else LightCardBg)
+                            .clickable { isIncome = false }
+                            .padding(10.dp),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Box(modifier = Modifier.padding(10.dp), contentAlignment = Alignment.Center) {
-                            Text("واردات (+)", color = if (isIncome) CashGreen else TextWhite, fontWeight = FontWeight.Bold, fontSize = 11.sp)
-                        }
+                        Text(Trans.get("expense_term", lang), color = if (!isIncome) ObsidianBackground else TextWhite, fontWeight = FontWeight.Bold, fontSize = 12.sp)
                     }
                 }
 
-                Text("اختر لوناً للتصنيف", color = TextMuted, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                // Color Selection row
+                Text("Select Color", color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 12.sp)
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .horizontalScroll(rememberScrollState()),
-                    horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.End)
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    CATEGORY_PRESETS_COLORS.forEach { hex ->
-                        val col = parseHexColor(hex)
+                    colors.forEach { c ->
+                        val col = parseHexColor(c)
+                        val isSelected = selectedColor == c
                         Box(
                             modifier = Modifier
-                                .size(32.dp)
+                                .size(30.dp)
                                 .clip(CircleShape)
                                 .background(col)
-                                .border(
-                                    2.dp,
-                                    if (selectedColor == hex) TextWhite else Color.Transparent,
-                                    CircleShape
-                                )
-                                .clickable { selectedColor = hex }
+                                .border(if (isSelected) 2.dp else 0.dp, TextWhite, CircleShape)
+                                .clickable { selectedColor = c }
                         )
                     }
                 }
 
-                Text("اختر رمزاً للتصنيف", color = TextMuted, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                // Icon selection row
+                Text("Select Icon", color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 12.sp)
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .horizontalScroll(rememberScrollState()),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    CATEGORY_PRESETS_ICONS.forEach { (iconKey, vector) ->
-                        val isSelected = selectedIcon == iconKey
-                        Box(
+                    icons.forEach { iconName ->
+                        val isSelected = selectedIcon == iconName
+                        IconButton(
+                            onClick = { selectedIcon = iconName },
                             modifier = Modifier
-                                .size(38.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(if (isSelected) GoldAccent else LightCardBg)
-                                .clickable { selectedIcon = iconKey },
-                            contentAlignment = Alignment.Center
+                                .background(if (isSelected) GoldAccent else LightCardBg, RoundedCornerShape(8.dp))
                         ) {
                             Icon(
-                                imageVector = vector,
+                                imageVector = mapIconNameToVector(iconName),
                                 contentDescription = null,
-                                tint = if (isSelected) ObsidianBackground else TextWhite,
-                                modifier = Modifier.size(18.dp)
+                                tint = if (isSelected) ObsidianBackground else TextWhite
                             )
                         }
                     }
                 }
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    if (name.isNotEmpty()) {
+                        onConfirm(name, isIncome, selectedIcon, selectedColor)
+                    }
+                }
+            ) {
+                Text(Trans.get("save", lang), color = GoldAccent, fontWeight = FontWeight.Bold)
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(Trans.get("cancel", lang), color = TextWhite)
             }
         }
     )
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Dialog D: Dialog for adding customized user reminders/config schedules
+// Dialog D: Dialog for adding billing and daily reminders
 // ---------------------------------------------------------------------------------------------------------------------
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddReminderDialog(
+    lang: String,
     onDismiss: () -> Unit,
     onConfirm: (title: String, timeString: String, type: String, dateDay: Int) -> Unit
 ) {
     var title by remember { mutableStateOf("") }
-    var hour by remember { mutableStateOf(9) }
-    var minute by remember { mutableStateOf(0) }
-    var type by remember { mutableStateOf("DAILY_EXPENSE") } // "DAILY_EXPENSE" or "BILL_PAYMENT"
-    var dateDay by remember { mutableStateOf(1) } // for bill payment
+    var hour by remember { mutableStateOf("09") }
+    var min by remember { mutableStateOf("00") }
+    var type by remember { mutableStateOf("DAILY_EXPENSE") } // DAILY_EXPENSE or BILL_PAYMENT
+    var dayOfMonth by remember { mutableStateOf("1") }
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        modifier = Modifier.testTag("add_reminder_dialog"),
-        confirmButton = {
-            Button(
-                onClick = {
-                    if (title.isNotEmpty()) {
-                        val paddedHour = hour.toString().padStart(2, '0')
-                        val paddedMinute = minute.toString().padStart(2, '0')
-                        onConfirm(title, "$paddedHour:$paddedMinute", type, dateDay)
-                    }
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = GoldAccent),
-                shape = RoundedCornerShape(10.dp)
-            ) {
-                Text("حفظ التنبيه", color = ObsidianBackground, fontWeight = FontWeight.Bold)
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("إلغاء", color = TextMuted)
-            }
-        },
-        title = {
-            Text(
-                text = "ضبط وإضافة تذكير مالي مميز",
-                color = TextWhite,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.End,
-                modifier = Modifier.fillMaxWidth()
-            )
-        },
         containerColor = DeepCardBg,
+        title = { Text(Trans.get("add_reminder", lang), color = GoldAccent, fontWeight = FontWeight.Bold, fontSize = 16.sp) },
         text = {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                horizontalAlignment = Alignment.End
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                modifier = Modifier.verticalScroll(rememberScrollState())
             ) {
                 OutlinedTextField(
                     value = title,
                     onValueChange = { title = it },
-                    label = { Text("عنوان التذكير (مثلاً: فاتورة النت، تسجيل المصاريف اليومية)") },
-                    textStyle = TextStyle(textAlign = TextAlign.Right, color = TextWhite),
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = TextWhite,
-                        unfocusedTextColor = TextWhite,
-                        focusedLabelColor = GoldAccent,
-                        unfocusedLabelColor = TextMuted
-                    )
+                    label = { Text(Trans.get("title", lang)) },
+                    singleLine = true,
+                    colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = GoldAccent, focusedLabelColor = GoldAccent),
+                    modifier = Modifier.fillMaxWidth()
                 )
 
-                Column(
+                Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.End
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    Text("نوع التنبيه المالي", color = TextMuted, fontSize = 11.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 6.dp))
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(if (type == "DAILY_EXPENSE") GoldAccent else LightCardBg)
+                            .clickable { type = "DAILY_EXPENSE" }
+                            .padding(10.dp),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Surface(
-                            modifier = Modifier
-                                .weight(1f)
-                                .clickable { type = "DAILY_EXPENSE" },
-                            shape = RoundedCornerShape(8.dp),
-                            color = if (type == "DAILY_EXPENSE") GoldAccent.copy(alpha = 0.2f) else LightCardBg,
-                            border = BorderStroke(1.dp, if (type == "DAILY_EXPENSE") GoldAccent else Color.Transparent)
-                        ) {
-                            Box(modifier = Modifier.padding(10.dp), contentAlignment = Alignment.Center) {
-                                Text("مصروفات يومية", color = if (type == "DAILY_EXPENSE") GoldAccent else TextWhite, fontWeight = FontWeight.Bold, fontSize = 11.sp)
-                            }
-                        }
-
-                        Surface(
-                            modifier = Modifier
-                                .weight(1f)
-                                .clickable { type = "BILL_PAYMENT" },
-                            shape = RoundedCornerShape(8.dp),
-                            color = if (type == "BILL_PAYMENT") GoldAccent.copy(alpha = 0.2f) else LightCardBg,
-                            border = BorderStroke(1.dp, if (type == "BILL_PAYMENT") GoldAccent else Color.Transparent)
-                        ) {
-                            Box(modifier = Modifier.padding(10.dp), contentAlignment = Alignment.Center) {
-                                Text("دفع الفواتير", color = if (type == "BILL_PAYMENT") GoldAccent else TextWhite, fontWeight = FontWeight.Bold, fontSize = 11.sp)
-                            }
-                        }
+                        Text(Trans.get("daily_exp", lang), color = if (type == "DAILY_EXPENSE") ObsidianBackground else TextWhite, fontWeight = FontWeight.Bold, fontSize = 11.sp, textAlign = TextAlign.Center)
+                    }
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(if (type == "BILL_PAYMENT") GoldAccent else LightCardBg)
+                            .clickable { type = "BILL_PAYMENT" }
+                            .padding(10.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(Trans.get("bill_pay", lang), color = if (type == "BILL_PAYMENT") ObsidianBackground else TextWhite, fontWeight = FontWeight.Bold, fontSize = 11.sp, textAlign = TextAlign.Center)
                     }
                 }
 
                 if (type == "BILL_PAYMENT") {
-                    Text("يوم سداد الفاتورة تلقائياً من كل شهر", color = TextMuted, fontSize = 11.sp, fontWeight = FontWeight.Bold)
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IconButton(onClick = { if (dateDay > 1) dateDay-- }, modifier = Modifier.background(LightCardBg, CircleShape).size(36.dp)) {
-                            Icon(Icons.Default.Remove, null, tint = TextWhite)
-                        }
-                        Text("يوم $dateDay في الشهر", color = GoldAccent, fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                        IconButton(onClick = { if (dateDay < 31) dateDay++ }, modifier = Modifier.background(LightCardBg, CircleShape).size(36.dp)) {
-                            Icon(Icons.Default.Add, null, tint = TextWhite)
-                        }
-                    }
+                    OutlinedTextField(
+                        value = dayOfMonth,
+                        onValueChange = { dayOfMonth = it },
+                        label = { Text(Trans.get("day", lang)) },
+                        singleLine = true,
+                        colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = GoldAccent, focusedLabelColor = GoldAccent),
+                        modifier = Modifier.fillMaxWidth()
+                    )
                 }
 
-                Text("توقيت الاستفسار (منبه الدفع)", color = TextMuted, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("الدقيقة", color = TextMuted, fontSize = 9.sp)
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            IconButton(onClick = { minute = (minute + 5) % 60 }, modifier = Modifier.size(30.dp)) {
-                                Icon(Icons.Default.KeyboardArrowUp, null, tint = TextMuted)
-                            }
-                            Text(minute.toString().padStart(2, '0'), color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                            IconButton(onClick = { minute = (minute + 55) % 60 }, modifier = Modifier.size(30.dp)) {
-                                Icon(Icons.Default.KeyboardArrowDown, null, tint = TextMuted)
-                            }
-                        }
-                    }
-
-                    Text(":", color = GoldAccent, fontWeight = FontWeight.Bold, fontSize = 24.sp)
-
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("الساعة", color = TextMuted, fontSize = 9.sp)
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            IconButton(onClick = { hour = (hour + 1) % 24 }, modifier = Modifier.size(30.dp)) {
-                                Icon(Icons.Default.KeyboardArrowUp, null, tint = TextMuted)
-                            }
-                            Text(hour.toString().padStart(2, '0'), color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                            IconButton(onClick = { hour = (hour + 23) % 24 }, modifier = Modifier.size(30.dp)) {
-                                Icon(Icons.Default.KeyboardArrowDown, null, tint = TextMuted)
-                            }
-                        }
+                    OutlinedTextField(
+                        value = hour,
+                        onValueChange = { hour = it },
+                        label = { Text("Hour") },
+                        singleLine = true,
+                        colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = GoldAccent, focusedLabelColor = GoldAccent),
+                        modifier = Modifier.weight(1f)
+                    )
+                    Text(":", color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                    OutlinedTextField(
+                        value = min,
+                        onValueChange = { min = it },
+                        label = { Text("Minute") },
+                        singleLine = true,
+                        colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = GoldAccent, focusedLabelColor = GoldAccent),
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    val day = dayOfMonth.toIntOrNull() ?: 1
+                    if (title.isNotEmpty()) {
+                        onConfirm(title, "$hour:$min", type, day)
                     }
                 }
+            ) {
+                Text(Trans.get("save", lang), color = GoldAccent, fontWeight = FontWeight.Bold)
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(Trans.get("cancel", lang), color = TextWhite)
             }
         }
     )
